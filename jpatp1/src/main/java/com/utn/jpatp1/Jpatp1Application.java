@@ -8,13 +8,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.lang.reflect.Array;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 
 @SpringBootApplication
 public class Jpatp1Application {
+
+	//Repositorios necesarios para guardar todas las entidades en la base de datos H2
+
 	@Autowired
 	ClienteRepo clienteRepository;
 
@@ -25,35 +25,12 @@ public class Jpatp1Application {
 		SpringApplication.run(Jpatp1Application.class, args);
 	}
 
+	//Código a ejecutarse al inicio de la aplicación
+
 	@Bean
-	CommandLineRunner init(FacturaRepo facturaRepo) {
+	CommandLineRunner init(ClienteRepo clienteRepo, RubroRepo rubroRepo) {
 		return args -> {
-			Factura factura = new Factura();
-			factura.setNumero(10);
-			factura.setDescuento(0.3);
-			factura.setTotal(99);
-			factura.setFecha(new Date());
-			factura.setFormaPago("Crédito");
-
-			Factura factura2 = Factura.builder()
-					.numero(11)
-					.descuento(0.1)
-					.total(900)
-					.fecha(new Date())
-					.formaPago("Efectivo")
-					.build();
-
-			Domicilio domi = Domicilio.builder()
-					.calle("San Martín")
-					.numero("553")
-					.localidad("Godoy Cruz")
-					.build();
-
-			Domicilio domi2 = Domicilio.builder()
-					.calle("9 de Julio")
-					.numero("230")
-					.localidad("Mendoza")
-					.build();
+			//Creación del rubro 1
 
 			Producto prod = Producto.builder()
 					.tipo("manufacturado")
@@ -71,8 +48,6 @@ public class Jpatp1Application {
 					.receta("No sé tampoco jaja")
 					.build();
 
-
-
 			Rubro rubro = Rubro.builder()
 					.denominacion("Rubro 1")
 					.build();
@@ -81,6 +56,9 @@ public class Jpatp1Application {
 			rubro.addProducto(prod2);
 
 			rubroRepository.save(rubro);
+
+
+			//Creación del pedido 1
 
 			DetallePedido dp = DetallePedido.builder()
 					.cantidad(2)
@@ -94,6 +72,13 @@ public class Jpatp1Application {
 					.producto(prod2)
 					.build();
 
+			Factura factura = new Factura();
+			factura.setNumero(10);
+			factura.setDescuento(0.3);
+			factura.setTotal(99);
+			factura.setFecha(new Date());
+			factura.setFormaPago("Crédito");
+
 			Pedido p = Pedido.builder()
 					.estado("iniciado")
 					.fecha(new Date())
@@ -105,10 +90,21 @@ public class Jpatp1Application {
 			p.addDetallePedido(dp);
 			p.addDetallePedido(dp2);
 
+
+			//Creación del pedido 2
+
 			DetallePedido dp3 = DetallePedido.builder()
 					.cantidad(1)
 					.subtotal(1000)
 					.producto(prod)
+					.build();
+
+			Factura factura2 = Factura.builder()
+					.numero(11)
+					.descuento(0.1)
+					.total(900)
+					.fecha(new Date())
+					.formaPago("Efectivo")
 					.build();
 
 			Pedido p2 = Pedido.builder()
@@ -120,6 +116,24 @@ public class Jpatp1Application {
 					.build();
 
 			p2.addDetallePedido(dp3);
+
+
+			//Creación de los domicilios del Cliente 1
+
+			Domicilio domi = Domicilio.builder()
+					.calle("San Martín")
+					.numero("553")
+					.localidad("Godoy Cruz")
+					.build();
+
+			Domicilio domi2 = Domicilio.builder()
+					.calle("9 de Julio")
+					.numero("230")
+					.localidad("Mendoza")
+					.build();
+
+
+			//Creación del Cliente 1
 
 			Cliente cli = Cliente.builder()
 					.nombre("Francisco")
@@ -135,7 +149,6 @@ public class Jpatp1Application {
 
 			clienteRepository.save(cli);
 
-			// Recuperar el objeto Persona desde la base de datos
 			Cliente cr = clienteRepository.findById(cli.getId()).orElse(null);
 			if (cr != null) {
 				System.out.println("\n\nDatos del cliente de id: " + cr.getId());
