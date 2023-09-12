@@ -13,9 +13,13 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Cliente extends Base{
+    @Column(name = "nombre")
     private String nombre;
+    @Column(name = "apellido")
     private String apellido;
+    @Column(name = "telefono")
     private String telefono;
+    @Column(name = "email")
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

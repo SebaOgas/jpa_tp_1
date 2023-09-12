@@ -13,12 +13,13 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Rubro extends Base{
+    @Column(name = "denominacion")
     private String denominacion;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "rubro_id")
     @Builder.Default
-    private List<Producto> productos = new ArrayList<Producto>();
+    private List<Producto> productos = new ArrayList<>();
 
     public void addProducto(Producto prod) {
         productos.add(prod);

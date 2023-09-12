@@ -1,11 +1,9 @@
 package com.utn.jpatp1.entidades;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
@@ -15,14 +13,18 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class Factura extends Base{
-
+    @Column(name = "numero")
     private int numero;
 
+    @Column(name = "fecha")
     private Date fecha;
 
+    @Column(name = "descuento")
     private double descuento;
 
+    @Column(name = "forma_pago")
     private String formaPago;
 
+    @Column(name = "total")
     private int total;
 }
